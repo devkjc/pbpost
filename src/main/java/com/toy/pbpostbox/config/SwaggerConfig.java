@@ -1,4 +1,4 @@
-package com.toy.pbpostbox.common.config;
+package com.toy.pbpostbox.config;
 
 import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +23,7 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig implements WebMvcConfigurer {
+
     @Bean
     public Docket swaggerApi() {
 
@@ -63,7 +64,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     private ApiInfo swaggerInfo() {
-        return new ApiInfoBuilder().title("PostBird PostBox API")
+        return new ApiInfoBuilder().title("PostBird pbpostbox API")
                 .description("포스트버드 우체통 api 문서 입니다. ").build();
     }
 
