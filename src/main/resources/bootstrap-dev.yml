@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: pbpostbox
+  profiles:
+    active:
+      dev
+  cloud:
+    config:
+      uri: http://ec2-3-38-58-94.ap-northeast-2.compute.amazonaws.com:8888
+encrypt:
+  key: JONGCHANJJANG
