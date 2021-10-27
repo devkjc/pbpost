@@ -1,6 +1,5 @@
 package com.toy.pbpostbox.postbox.controller;
 
-import com.toy.pbpostbox.config.security.SecurityService;
 import com.toy.pbpostbox.postbox.dto.PostBoxDto;
 import com.toy.pbpostbox.postbox.service.PostBoxService;
 import io.swagger.annotations.Api;
