@@ -22,7 +22,7 @@ public class PostBoxDto {
         private BigDecimal longitude;
         private BigDecimal latitude;
 
-        public PostBox toEntity(long uId) {
+        public PostBox toEntity(String uId) {
             return PostBox.builder()
                     .uid(uId)
                     .address(Address.builder().address1(address1).address2(address2).zipcode(zipcode).latitude(latitude).longitude(longitude).build())

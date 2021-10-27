@@ -24,7 +24,7 @@ public class PostBox extends BaseTimeEntity {
     private long id;
 
     @Column(name = "uid_fk")
-    private long uid;
+    private String uid;
 
     @Embedded
     private Address address;

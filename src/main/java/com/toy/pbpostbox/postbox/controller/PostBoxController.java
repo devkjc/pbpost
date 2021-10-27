@@ -1,5 +1,6 @@
 package com.toy.pbpostbox.postbox.controller;
 
+import com.toy.pbpostbox.config.security.SecurityService;
 import com.toy.pbpostbox.postbox.dto.PostBoxDto;
 import com.toy.pbpostbox.postbox.service.PostBoxService;
 import io.swagger.annotations.Api;
@@ -22,7 +23,13 @@ public class PostBoxController {
     @PostMapping
     @ApiOperation(value = "우체통 설치")
     public ResponseEntity<?> savePostBox(@RequestBody PostBoxDto.Req req) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(postBoxService.savePostBox(req));
+    }
+
+    @GetMapping("/test")
+    @ApiOperation(value = "test")
+    public ResponseEntity<?> get() {
+        return ResponseEntity.ok("d");
     }
 
 }

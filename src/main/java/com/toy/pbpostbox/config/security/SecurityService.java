@@ -1,21 +1,19 @@
-package com.toy.pbpostbox.common.service;
+package com.toy.pbpostbox.config.security;
 
-import lombok.RequiredArgsConstructor;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
-public class AuthService {
-
-    public static void getUser() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Object principal = securityContext.getAuthentication().getPrincipal();
-    }
+public class SecurityService {
 
     public String getBearerToken(HttpServletRequest request) {
         String bearerToken = null;
@@ -24,6 +22,10 @@ public class AuthService {
             bearerToken = authorization.substring(7, authorization.length());
         }
         return bearerToken;
+    }
+
+    public static void main(String[] args) {
+
     }
 
 }

@@ -1,6 +1,6 @@
 package com.toy.pbpostbox.postbox.service;
 
-import com.toy.pbpostbox.common.service.AuthService;
+import com.toy.pbpostbox.common.service.UserFeign;
 import com.toy.pbpostbox.postbox.dto.PostBoxDto;
 import com.toy.pbpostbox.postbox.repository.PostBoxRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 public class PostBoxService {
 
     private final PostBoxRepository postBoxRepository;
-//    private final AuthService authService;
+    private final UserFeign userFeign;
 
-    public void savePostBox(PostBoxDto.Req req) {
-        AuthService.getUser();
-//        return PostBoxDto.Res.of(postBoxRepository.save(req.toEntity()));
+    public PostBoxDto.Res savePostBox(PostBoxDto.Req req) {
+        String uid = userFeign.getUid();
+        return PostBoxDto.Res.of(postBoxRepository.save(req.toEntity(uid)));
     }
 }
