@@ -35,7 +35,6 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
     implementation 'io.github.openfeign:feign-httpclient'
-    // compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin', version: '2.2.4.RELEASE'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -49,8 +48,6 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-security'
     implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
     compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.1.1.RELEASE'
-    // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
-  //  implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.3'
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
