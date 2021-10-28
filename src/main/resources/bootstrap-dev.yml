@@ -6,6 +6,6 @@ spring:
       dev
   cloud:
     config:
-      uri: http://ec2-3-38-58-94.ap-northeast-2.compute.amazonaws.com:8888
+      uri: http://58.149.234.98:5002
 encrypt:
   key: JONGCHANJJANG

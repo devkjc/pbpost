@@ -6,6 +6,6 @@ spring:
       default
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://localhost:5002
 encrypt:
   key: JONGCHANJJANG
