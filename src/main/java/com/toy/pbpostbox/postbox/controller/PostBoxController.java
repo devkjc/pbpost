@@ -10,8 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/postbox")
@@ -25,9 +24,24 @@ public class PostBoxController {
 
     @PostMapping
     @ApiOperation(value = "우체통 설치")
-    public ResponseEntity<?> savePostBox(@RequestBody PostBoxDto.Req req) {
+    public ResponseEntity<PostBoxDto.Res> savePostBox(@RequestBody PostBoxDto.Req req) {
         String uid = SecurityService.getUid();
         return ResponseEntity.ok(postBoxService.savePostBox(uid, req));
+    }
+
+    @GetMapping
+    @ApiOperation(value = "우체통 조회")
+    public ResponseEntity<List<PostBoxDto.Res>> getPostBox() {
+        String uid = SecurityService.getUid();
+        return ResponseEntity.ok(postBoxService.getPostBox(uid));
+    }
+
+    @DeleteMapping
+    @ApiOperation(value = "우체통 제거")
+    public ResponseEntity<?> deletePostBox() {
+        String uid = SecurityService.getUid();
+        postBoxService.deletePostBox(uid);
+        return ResponseEntity.ok().build();
     }
 
 
