@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,12 @@ public class PostBoxController {
         String uid = SecurityService.getUid();
         postBoxService.deletePostBox(uid);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/test")
+    @ApiOperation(value = "test")
+    public ResponseEntity<?> get() {
+        throw new InvalidTokenException("test");
     }
 
 

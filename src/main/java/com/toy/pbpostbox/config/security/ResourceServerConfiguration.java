@@ -14,6 +14,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/v2/api-docs", "/configuration/**", "/webjars/**", "/api-docs").permitAll()
                 .antMatchers("/oauth/**", "/csrf").permitAll()
                 .antMatchers("**/actuator/**").permitAll()
+                .antMatchers("/api/v1/postbox/test").permitAll()
                 .anyRequest().authenticated().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

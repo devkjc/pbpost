@@ -1,13 +1,19 @@
 package com.toy.pbpostbox.common.exception;
 
+import com.toy.pbpostbox.common.exception.feign.FeignClientException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.oauth2.common.exceptions.ClientAuthenticationException;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.persistence.EntityNotFoundException;
@@ -79,6 +85,15 @@ public class RestResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.GONE);
     }
 
+    @ExceptionHandler(value = { FeignClientException.class})
+    protected ResponseEntity<ErrorResponse> handleFeignClientException(FeignClientException e) {
+        log.error("ProcessException : "  +  e.getMessage());
+        final String message = e.getMessage() == null ? "" : e.getMessage();
+        final List<ErrorResponse.FieldError> errors = ErrorResponse.FieldError.of(null, null, message);
+        final ErrorResponse response = ErrorResponse.of(ErrorMessage.INTERNAL_SERVER_ERROR, errors);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(value = { TimeIsExpiredException.class })
     protected ResponseEntity<ErrorResponse> handleTimeIsExpiredException(RuntimeException e) throws IOException {
         log.error("handleIllegalArgumentException", e);
@@ -87,7 +102,6 @@ public class RestResponseEntityExceptionHandler {
         final ErrorResponse response = ErrorResponse.of(ErrorMessage.HANDLE_ACCESS_DENIED, errors);
         return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
     }
-
 
     @ExceptionHandler(value = { DuplicateKeyException.class })
     protected ResponseEntity<ErrorResponse> handleDuplicateKeyExceptionException(RuntimeException e) throws IOException {
