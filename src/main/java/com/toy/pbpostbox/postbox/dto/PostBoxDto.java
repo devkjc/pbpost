@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class PostBoxDto {
@@ -16,16 +18,17 @@ public class PostBoxDto {
     @ApiModel(value = "PostBoxDto.Req")
     public static class Req {
 
-        private String zipcode;
         private String address1;
         private String address2;
+        @NotNull
         private BigDecimal longitude;
+        @NotNull
         private BigDecimal latitude;
 
         public PostBox toEntity(String uId) {
             return PostBox.builder()
                     .uid(uId)
-                    .address(Address.builder().address1(address1).address2(address2).zipcode(zipcode).latitude(latitude).longitude(longitude).build())
+                    .address(Address.builder().address1(address1).address2(address2).latitude(latitude).longitude(longitude).build())
                     .build();
         }
     }
