@@ -6,6 +6,9 @@ import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -18,18 +21,31 @@ public class PostBoxDto {
     @ApiModel(value = "PostBoxDto.Req")
     public static class Req {
 
-        private String address1;
-        private String address2;
-        @NotNull
-        private BigDecimal longitude;
+        private String address;
+
+        // 위도
         @NotNull
         private BigDecimal latitude;
 
+        // 경도
+        @NotNull
+        private BigDecimal longitude;
+
         public PostBox toEntity(String uId) {
-            return PostBox.builder()
-                    .uid(uId)
-                    .address(Address.builder().address1(address1).address2(address2).latitude(latitude).longitude(longitude).build())
-                    .build();
+            try {
+
+                String pointWKT = String.format("POINT(%s %s)", latitude, longitude);
+                Point point = (Point) new WKTReader().read(pointWKT);
+
+                return PostBox.builder()
+                        .uid(uId)
+                        .address(Address.builder().address(address).latitude(latitude).longitude(longitude).locationPoint(point).build())
+                        .build();
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
@@ -40,12 +56,12 @@ public class PostBoxDto {
     public static class Res {
 
         private long id;
-        private Address address;
+        private AddressDto.Res address;
 
         public static Res of(PostBox postBox) {
             return Res.builder()
                     .id(postBox.getId())
-                    .address(postBox.getAddress())
+                    .address(AddressDto.Res.of(postBox.getAddress()))
                     .build();
         }
     }
@@ -57,12 +73,12 @@ public class PostBoxDto {
     public static class SimpleRes {
 
         private long id;
-        private Address address;
+        private AddressDto.Res address;
 
         public static SimpleRes of(PostBox postBox) {
             return SimpleRes.builder()
                     .id(postBox.getId())
-                    .address(postBox.getAddress())
+                    .address(AddressDto.Res.of(postBox.getAddress()))
                     .build();
         }
     }

@@ -23,6 +23,7 @@ bootJar {
 }
 
 dependencies {
+    compile group: 'org.hibernate', name: 'hibernate-spatial', version: '5.4.4.Final'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'

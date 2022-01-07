@@ -1,9 +1,11 @@
 package com.toy.pbpostbox.postbox.service;
 
+import com.toy.pbpostbox.common.domain.Landmark;
 import com.toy.pbpostbox.common.domain.Location;
 import com.toy.pbpostbox.postbox.domain.PostBox;
+import com.toy.pbpostbox.postbox.dto.LandmarkDto;
 import com.toy.pbpostbox.postbox.dto.PostBoxDto;
-import com.toy.pbpostbox.postbox.repository.PostBoxRepository;
+import com.toy.pbpostbox.postbox.repository.LandmarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,29 +15,15 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PostBoxService {
+public class LandmarkService {
 
-    private final PostBoxRepository postBoxRepository;
-
-    public PostBoxDto.Res savePostBox(String uid, PostBoxDto.Req req) {
-        return PostBoxDto.Res.of(postBoxRepository.save(req.toEntity(uid)));
-    }
-
-    @Transactional
-    public void deletePostBox(String uid) {
-        postBoxRepository.deleteByUid(uid);
-    }
-
-    public List<PostBoxDto.Res> getPostBox(String uid) {
-        return postBoxRepository.findByUid(uid).stream().map(PostBoxDto.Res::of).collect(Collectors.toList());
-    }
+    private final LandmarkRepository landmarkRepository;
 
     @Transactional(readOnly = true)
-    public List<PostBoxDto.Res> getSquareMapPostBoxList(double baseLatitude, double baseLongitude, double distance) {
+    public List<LandmarkDto.Res> getSquareMapLandmarkList(double baseLatitude, double baseLongitude, double distance) {
 
         // 북동쪽 좌표 구하기
         Location northEast = GeometryUtil.calculate(baseLatitude, baseLongitude, distance, Direction.NORTH_EAST);
-
         // 남서쪽 좌표 구하기
         Location southWest = GeometryUtil.calculate(baseLatitude, baseLongitude, distance, Direction.SOUTH_WEST);
 
@@ -46,8 +34,9 @@ public class PostBoxService {
 
         String lineString = String.format("LINESTRING(%f %f, %f %f)", x1, y1, x2, y2);
 
-        List<PostBox> squareMapPostBoxList = postBoxRepository.getSquareMapPostBoxList(lineString);
+        List<Landmark> landmarkList = landmarkRepository.getSquareMapLandmarkList(lineString);
 
-        return squareMapPostBoxList.stream().map(PostBoxDto.Res::of).collect(Collectors.toList());
+        return landmarkList.stream().map(LandmarkDto.Res::of).collect(Collectors.toList());
     }
+
 }
