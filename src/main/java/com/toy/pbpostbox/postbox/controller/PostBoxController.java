@@ -22,7 +22,6 @@ import java.util.List;
 public class PostBoxController {
 
     private final PostBoxService postBoxService;
-    private final LandmarkRepository landmarkRepository;
 
     @PostMapping
     @ApiOperation(value = "우체통 설치")
