@@ -1,10 +1,8 @@
 package com.toy.pbpostbox.postbox.service;
 
-import com.toy.pbpostbox.common.domain.Landmark;
+import com.toy.pbpostbox.postbox.domain.Landmark;
 import com.toy.pbpostbox.common.domain.Location;
-import com.toy.pbpostbox.postbox.domain.PostBox;
 import com.toy.pbpostbox.postbox.dto.LandmarkDto;
-import com.toy.pbpostbox.postbox.dto.PostBoxDto;
 import com.toy.pbpostbox.postbox.repository.LandmarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

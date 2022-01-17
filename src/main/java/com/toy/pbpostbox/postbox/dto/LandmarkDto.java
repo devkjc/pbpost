@@ -1,6 +1,6 @@
 package com.toy.pbpostbox.postbox.dto;
 
-import com.toy.pbpostbox.common.domain.Landmark;
+import com.toy.pbpostbox.postbox.domain.Landmark;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;

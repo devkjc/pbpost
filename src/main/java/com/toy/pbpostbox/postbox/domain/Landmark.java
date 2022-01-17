@@ -1,5 +1,7 @@
-package com.toy.pbpostbox.common.domain;
+package com.toy.pbpostbox.postbox.domain;
 
+import com.toy.pbpostbox.common.domain.Address;
+import com.toy.pbpostbox.common.domain.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Landmark extends BaseTimeEntity{
+public class Landmark extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

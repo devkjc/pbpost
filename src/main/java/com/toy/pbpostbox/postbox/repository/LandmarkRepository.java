@@ -1,6 +1,6 @@
 package com.toy.pbpostbox.postbox.repository;
 
-import com.toy.pbpostbox.common.domain.Landmark;
+import com.toy.pbpostbox.postbox.domain.Landmark;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
