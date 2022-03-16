@@ -9,7 +9,22 @@ import com.toy.pbpostbox.common.domain.Location;
  */
 public class GeometryUtil {
 
-    public static Location calculate(Double baseLatitude, Double baseLongitude, Double distance, Direction direction) {
+    public static String getLineString(double baseLatitude, double baseLongitude, double distance) {
+        // 북동쪽 좌표 구하기
+        Location northEast = GeometryUtil.calculate(baseLatitude, baseLongitude, distance, Direction.NORTH_EAST);
+
+        // 남서쪽 좌표 구하기
+        Location southWest = GeometryUtil.calculate(baseLatitude, baseLongitude, distance, Direction.SOUTH_WEST);
+
+        double x1 = northEast.getLatitude();
+        double y1 = northEast.getLongitude();
+        double x2 = southWest.getLatitude();
+        double y2 = southWest.getLongitude();
+
+        return String.format("LINESTRING(%f %f, %f %f)", x1, y1, x2, y2);
+    }
+
+    private static Location calculate(Double baseLatitude, Double baseLongitude, Double distance, Direction direction) {
 
         Double radianLatitude = toRadian(baseLatitude);
         Double radianLongitude = toRadian(baseLongitude);
