@@ -1,7 +1,7 @@
-package com.toy.pbpostbox.postbox.domain;
+package com.toy.pbpostbox.addressBook.domain;
 
-import com.toy.pbpostbox.common.domain.Address;
 import com.toy.pbpostbox.common.domain.BaseTimeEntity;
+import com.toy.pbpostbox.postbox.domain.PostBox;
 import com.toy.pbpostbox.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,25 +13,23 @@ import javax.persistence.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "post_box")
+@Table(name = "address_book")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostBox extends BaseTimeEntity {
+public class AddressBook extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uid_fk")
     private User user;
 
-    @Embedded
-    private Address address;
+    @ManyToOne
+    @JoinColumn(name = "post_box_id_fk", nullable = false)
+    private PostBox postBox;
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
 }

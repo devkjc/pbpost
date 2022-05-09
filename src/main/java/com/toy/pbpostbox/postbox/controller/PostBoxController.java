@@ -2,7 +2,6 @@ package com.toy.pbpostbox.postbox.controller;
 
 import com.toy.pbpostbox.config.security.SecurityService;
 import com.toy.pbpostbox.postbox.dto.PostBoxDto;
-import com.toy.pbpostbox.postbox.repository.LandmarkRepository;
 import com.toy.pbpostbox.postbox.service.PostBoxService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,9 +31,9 @@ public class PostBoxController {
 
     @GetMapping
     @ApiOperation(value = "내 우체통 조회")
-    public ResponseEntity<List<PostBoxDto.Res>> getPostBox() {
+    public ResponseEntity<PostBoxDto.Res> getPostBox() {
         String uid = SecurityService.getUid();
-        return ResponseEntity.ok(postBoxService.getPostBox(uid));
+        return ResponseEntity.ok(postBoxService.getPostBoxDto(uid));
     }
 
     @DeleteMapping

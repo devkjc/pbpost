@@ -17,7 +17,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -50,8 +50,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build());
 
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(swaggerInfo())
-                .securityContexts(Arrays.asList(securityContext()))
-                .securitySchemes(Arrays.asList(apiKey()))
+                .securityContexts(Collections.singletonList(securityContext()))
+                .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.toy.pbpostbox"))
                 .paths(PathSelectors.any())
@@ -65,7 +65,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo swaggerInfo() {
         return new ApiInfoBuilder().title("PostBird pbpostbox API")
-                .description("포스트버드 우체통 api 문서 입니다. ").build();
+                .description("포스트버드 우체통 api 문서 입니다. \n 37.497453, 127.035417\n")
+                .build();
     }
 
     private ApiKey apiKey() {

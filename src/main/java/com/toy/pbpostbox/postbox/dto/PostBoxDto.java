@@ -2,6 +2,8 @@ package com.toy.pbpostbox.postbox.dto;
 
 import com.toy.pbpostbox.common.domain.Address;
 import com.toy.pbpostbox.postbox.domain.PostBox;
+import com.toy.pbpostbox.user.domain.User;
+import com.toy.pbpostbox.user.dto.UserDto;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +12,6 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -31,17 +32,18 @@ public class PostBoxDto {
         @NotNull
         private BigDecimal longitude;
 
-        public PostBox toEntity(String uId) {
-            try {
+        public PostBox toEntity(User user) {
+            return PostBox.builder()
+                    .user(user)
+                    .address(getAddress())
+                    .build();
+        }
 
+        public Address getAddress() {
+            try {
                 String pointWKT = String.format("POINT(%s %s)", latitude, longitude);
                 Point point = (Point) new WKTReader().read(pointWKT);
-
-                return PostBox.builder()
-                        .uid(uId)
-                        .address(Address.builder().address(address).latitude(latitude).longitude(longitude).locationPoint(point).build())
-                        .build();
-
+                return Address.builder().address(address).latitude(latitude).longitude(longitude).locationPoint(point).build();
             } catch (ParseException e) {
                 e.printStackTrace();
                 return null;
@@ -56,11 +58,13 @@ public class PostBoxDto {
     public static class Res {
 
         private long id;
+        private UserDto.Res user;
         private AddressDto.Res address;
 
         public static Res of(PostBox postBox) {
             return Res.builder()
                     .id(postBox.getId())
+                    .user(UserDto.Res.of(postBox.getUser()))
                     .address(AddressDto.Res.of(postBox.getAddress()))
                     .build();
         }

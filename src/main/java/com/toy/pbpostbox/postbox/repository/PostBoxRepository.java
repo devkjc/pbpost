@@ -7,13 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PostBoxRepository extends JpaRepository<PostBox, Long> {
 
-    void deleteByUid(String uid);
+    void deleteByUserUid(String uid);
 
-    List<PostBox> findByUid(String uid);
+    Optional<PostBox> findTopByUserUid(String uid);
 
     @Query(value = "select * from postbird.post_box where MBRCONTAINS(ST_LINESTRINGFROMTEXT(:lineString), location_point)", nativeQuery = true)
     List<PostBox> getSquareMapPostBoxList(@Param(value = "lineString") String lineString);
