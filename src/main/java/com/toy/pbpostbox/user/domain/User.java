@@ -28,7 +28,4 @@ public class User extends BaseTimeEntity {
     @Column(unique = true, nullable = false, updatable = false)
     private String code;
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
 }
