@@ -5,6 +5,7 @@ import com.toy.pbpostbox.postbox.dto.PostBoxDto;
 import com.toy.pbpostbox.postbox.service.PostBoxService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -44,10 +45,13 @@ public class PostBoxController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/map/{lat}/{lot}/{distance}")
+    @GetMapping("/map/{lat}/{lon}/{distance}")
     @ApiOperation(value = "내 주변 우체통 조회")
-    public ResponseEntity<List<PostBoxDto.Res>> getSquareMapPostBoxList(@PathVariable Double lat,@PathVariable Double lot, @PathVariable Double distance) {
-        return ResponseEntity.ok(postBoxService.getSquareMapPostBoxList(lat, lot, distance));
+    public ResponseEntity<List<PostBoxDto.Res>> getSquareMapPostBoxList(
+            @ApiParam(value = "위도") @PathVariable Double lat,
+            @ApiParam(value = "경도") @PathVariable Double lon,
+            @ApiParam(value = "거리(km)") @PathVariable Double distance) {
+        return ResponseEntity.ok(postBoxService.getSquareMapPostBoxList(lat, lon, distance));
     }
 
 //    @GetMapping("/test")

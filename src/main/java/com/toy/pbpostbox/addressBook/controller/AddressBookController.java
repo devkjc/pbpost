@@ -3,8 +3,10 @@ package com.toy.pbpostbox.addressBook.controller;
 import com.toy.pbpostbox.addressBook.dto.AddressBookDto;
 import com.toy.pbpostbox.addressBook.service.AddressBookService;
 import com.toy.pbpostbox.config.security.SecurityService;
+import com.toy.pbpostbox.postbox.dto.PostBoxDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,17 @@ public class AddressBookController {
         String uid = SecurityService.getUid();
         addressBookService.deleteAddressBook(uid, addressBookId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/map/{lat}/{lon}/{distance}")
+    @ApiOperation(value = "내 주소록에 있는 주변 우체통 조회")
+    public ResponseEntity<List<PostBoxDto.Res>> getSquareMapPostBoxList(
+            @ApiParam(value = "위도") @PathVariable Double lat,
+            @ApiParam(value = "경도") @PathVariable Double lon,
+            @ApiParam(value = "거리(km)") @PathVariable Double distance
+    ) {
+        String uid = SecurityService.getUid();
+        return ResponseEntity.ok(addressBookService.getSquareMapPostBoxList(lat, lon, distance, uid));
     }
 
 }

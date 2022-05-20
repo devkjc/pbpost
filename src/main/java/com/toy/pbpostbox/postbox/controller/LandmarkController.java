@@ -4,6 +4,7 @@ import com.toy.pbpostbox.postbox.dto.LandmarkDto;
 import com.toy.pbpostbox.postbox.service.LandmarkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +22,14 @@ public class LandmarkController {
 
     private final LandmarkService landmarkService;
 
-    @GetMapping("/map/{lat}/{lot}/{distance}")
+    @GetMapping("/map/{lat}/{lon}/{distance}")
     @ApiOperation(value = "내 주변 랜드마크 조회")
-    public ResponseEntity<List<LandmarkDto.Res>> getSquareMapLandmarkList(@PathVariable Double lat, @PathVariable Double lot, @PathVariable Double distance) {
-        return ResponseEntity.ok(landmarkService.getSquareMapLandmarkList(lat, lot, distance));
+    public ResponseEntity<List<LandmarkDto.Res>> getSquareMapLandmarkList(
+            @ApiParam(value = "위도") @PathVariable Double lat,
+            @ApiParam(value = "경도") @PathVariable Double lon,
+            @ApiParam(value = "거리(km)") @PathVariable Double distance
+    ) {
+        return ResponseEntity.ok(landmarkService.getSquareMapLandmarkList(lat, lon, distance));
     }
 
 }
