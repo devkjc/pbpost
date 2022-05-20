@@ -1,4 +1,4 @@
-package com.toy.pbpostbox.postbox.service;
+package com.toy.pbpostbox.common.util;
 
 import com.toy.pbpostbox.common.domain.Location;
 
@@ -10,6 +10,7 @@ import com.toy.pbpostbox.common.domain.Location;
 public class GeometryUtil {
 
     public static String getLineString(double baseLatitude, double baseLongitude, double distance) {
+
         // 북동쪽 좌표 구하기
         Location northEast = GeometryUtil.calculate(baseLatitude, baseLongitude, distance, Direction.NORTH_EAST);
 

@@ -1,4 +1,4 @@
-package com.toy.pbpostbox.postbox.service;
+package com.toy.pbpostbox.common.util;
 
 public enum Direction {
     NORTH(0.0),

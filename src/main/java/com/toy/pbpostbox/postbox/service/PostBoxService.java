@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.toy.pbpostbox.postbox.service.GeometryUtil.getLineString;
+import static com.toy.pbpostbox.common.util.GeometryUtil.getLineString;
 
 @Service
 @RequiredArgsConstructor

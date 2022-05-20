@@ -1,7 +1,6 @@
 package com.toy.pbpostbox.postbox.service;
 
 import com.toy.pbpostbox.postbox.domain.Landmark;
-import com.toy.pbpostbox.common.domain.Location;
 import com.toy.pbpostbox.postbox.dto.LandmarkDto;
 import com.toy.pbpostbox.postbox.repository.LandmarkRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.toy.pbpostbox.postbox.service.GeometryUtil.getLineString;
+import static com.toy.pbpostbox.common.util.GeometryUtil.getLineString;
 
 @Service
 @RequiredArgsConstructor

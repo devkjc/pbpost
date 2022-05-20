@@ -22,7 +22,6 @@ public interface PostBoxRepository extends JpaRepository<PostBox, Long> {
     @Query(value = "select pb.*\n" +
             "from postbird.address_book ab inner join postbird.post_box pb on ab.post_box_id_fk = pb.id\n" +
             "where ab.uid_fk = :uid and MBRCONTAINS(ST_LINESTRINGFROMTEXT(:lineString), location_point)", nativeQuery = true)
-    List<PostBox> getSquareMapMyAddressBookPostBoxList(@Param(value = "lineString") String lineString, @Param(value = "uid") String uid);
-
+    List<PostBox> getSquareMapMyAddressBook(@Param(value = "lineString") String lineString, @Param(value = "uid") String uid);
 
 }

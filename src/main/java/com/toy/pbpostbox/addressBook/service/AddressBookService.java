@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.toy.pbpostbox.postbox.service.GeometryUtil.getLineString;
+import static com.toy.pbpostbox.common.util.GeometryUtil.getLineString;
 
 @Service
 @RequiredArgsConstructor
@@ -58,10 +58,8 @@ public class AddressBookService {
 
         String lineString = getLineString(baseLatitude, baseLongitude, distance);
 
-        List<PostBox> squareMapPostBoxList = postBoxRepository.getSquareMapMyAddressBookPostBoxList(lineString, uid);
+        List<PostBox> squareMapPostBoxList = postBoxRepository.getSquareMapMyAddressBook(lineString, uid);
 
         return squareMapPostBoxList.stream().map(PostBoxDto.Res::of).collect(Collectors.toList());
     }
 }
-
-//LINESTRING(37.581085 127.077118, 37.413806 126.993809)
