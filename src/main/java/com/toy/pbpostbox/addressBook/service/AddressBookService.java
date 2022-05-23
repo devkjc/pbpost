@@ -34,14 +34,17 @@ public class AddressBookService {
     public AddressBookDto.Res saveAddressBookByCode(String uid, String code) {
 
         User user = userService.getUser(uid);
-        User codeUser = userRepository.findTopByCode(code).orElseThrow(() -> new ProcessException("유효한 코드가 아닙니다."));
+        User codeUser = userRepository.findTopByCodeAndUidNot(code, uid).orElseThrow(() -> new ProcessException("유효한 코드가 아닙니다."));
         PostBox postBox = postBoxService.getPostBox(codeUser.getUid()).orElseThrow(() -> new ProcessException("유효한 코드가 아닙니다."));
 
-        AddressBook addressBook = AddressBook.builder()
-                .postBox(postBox)
-                .user(user).build();
+        AddressBook entityAddressBook = addressBookRepository.findTopByUserUidAndPostBoxId(user.getUid(), postBox.getId()).orElseGet(() -> {
+            AddressBook addressBook = AddressBook.builder()
+                    .postBox(postBox)
+                    .user(user).build();
+            return addressBookRepository.save(addressBook);
+        });
 
-        return AddressBookDto.Res.of(addressBookRepository.save(addressBook));
+        return AddressBookDto.Res.of(entityAddressBook);
     }
 
     public List<AddressBookDto.Res> getMyAddressBook(String uid) {

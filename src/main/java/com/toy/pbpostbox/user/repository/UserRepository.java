@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
-    Optional<User> findTopByCode(String code);
+    Optional<User> findTopByCodeAndUidNot(String code, String uid);
 
 }
