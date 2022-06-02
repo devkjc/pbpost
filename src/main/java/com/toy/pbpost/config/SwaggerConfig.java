@@ -65,7 +65,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo swaggerInfo() {
         return new ApiInfoBuilder().title("PostBird pbpost API")
-                .description("포스트버드 우체통 api 문서 입니다. \n 37.497453, 127.035417\n")
+                .description("포스트버드 우편관련 api 문서 입니다. \n 37.497453, 127.035417\n")
                 .build();
     }
 
