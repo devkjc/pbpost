@@ -17,8 +17,8 @@ ext {
 }
 
 bootJar {
-    archiveBaseName = 'pbpostbox'
-    archiveFileName = 'pbpostbox.jar'
+    archiveBaseName = 'pbpost'
+    archiveFileName = 'pbpost.jar'
     archiveVersion = "1.0.0"
 }
 
