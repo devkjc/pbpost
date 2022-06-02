@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Log4j2
 @CrossOrigin
-@Api(tags = {"랜드마크"})
+@Api(tags = {"Landmark API"})
 public class LandmarkController {
 
     private final LandmarkService landmarkService;
