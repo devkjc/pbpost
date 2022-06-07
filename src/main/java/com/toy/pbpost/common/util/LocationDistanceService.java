@@ -2,15 +2,18 @@ package com.toy.pbpost.common.util;
 
 import com.toy.pbpost.common.domain.LengthUnit;
 import com.toy.pbpost.common.domain.TimeDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
-public class LocationDistance {
+@Service
+@RequiredArgsConstructor
+public class LocationDistanceService {
 
-
-    public ZonedDateTime requiredTime(double lat1, double lon1, double lat2, double lon2) {
-
-        return null;
+    public LocalDateTime getArrivalTime(LocalDateTime departureTime, double lat1, double lon1, double lat2, double lon2, double perHour) {
+        double distance = distance(lat1, lon1, lat2, lon2, LengthUnit.KILOMETER);
+        return departureTime.plusSeconds(requiredSecond(distance, perHour));
     }
 
     /**
@@ -59,6 +62,10 @@ public class LocationDistance {
                 .min(min)
                 .sec(sec)
                 .build();
+    }
+
+    private Long requiredSecond(double distance, double perHour) {
+        return Math.round(distance * 3600 / perHour);
     }
 
     // This function converts decimal degrees to radians

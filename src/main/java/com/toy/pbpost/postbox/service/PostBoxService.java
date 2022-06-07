@@ -1,5 +1,6 @@
 package com.toy.pbpost.postbox.service;
 
+import com.toy.pbpost.common.domain.Address;
 import com.toy.pbpost.common.exception.ProcessException;
 import com.toy.pbpost.postbox.domain.PostBox;
 import com.toy.pbpost.postbox.dto.PostBoxDto;
@@ -29,7 +30,7 @@ public class PostBoxService {
         Optional<PostBox> postBoxOptional = getPostBox(user.getUid());
         if (postBoxOptional.isPresent()) {
             PostBox postBox = postBoxOptional.get();
-            postBox.setAddress(req.getAddress());
+            postBox.setAddress(Address.createAddress(req.getLatitude(), req.getLongitude(), req.getAddress()));
             return PostBoxDto.Res.of(postBoxRepository.save(postBox));
         }else{
             return PostBoxDto.Res.of(postBoxRepository.save(req.toEntity(user)));
@@ -57,6 +58,10 @@ public class PostBoxService {
         List<PostBox> squareMapPostBoxList = postBoxRepository.getSquareMapPostBoxList(lineString);
 
         return squareMapPostBoxList.stream().map(PostBoxDto.Res::of).collect(Collectors.toList());
+    }
+
+    public PostBox findById(long id) {
+        return postBoxRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 우체통입니다."));
     }
 
 }

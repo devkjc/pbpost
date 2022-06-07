@@ -1,5 +1,7 @@
 package com.toy.pbpost.letter.domain;
 
+import com.toy.pbpost.bird.domain.Bird;
+import com.toy.pbpost.common.domain.Address;
 import com.toy.pbpost.common.domain.BaseTimeEntity;
 import com.toy.pbpost.postbox.domain.Landmark;
 import com.toy.pbpost.postbox.domain.PostBox;
@@ -10,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -26,8 +29,16 @@ public class Letter extends BaseTimeEntity {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "uid_fk")
+    @JoinColumn(name = "from_uid_fk", nullable = false)
     private User from;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "to_uid_fk")
+    private User to;
+
+    @ManyToOne
+    @JoinColumn(name = "bird_id_fk", nullable = false)
+    private Bird bird;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "landmark_id_fk")
@@ -38,14 +49,23 @@ public class Letter extends BaseTimeEntity {
     private PostBox toPostBox;
 
     @ManyToOne
-    @JoinColumn(name = "font_id_fk")
+    @JoinColumn(name = "font_id_fk", nullable = false)
     private LetterFont font;
 
     @ManyToOne
-    @JoinColumn(name = "background_id_fk")
+    @JoinColumn(name = "background_id_fk", nullable = false)
     private LetterBackground background;
 
-    @Column(columnDefinition = "TEXT")
+    @Embedded
+    private Address departureAddress;
+
+    @Column(nullable = false)
+    private LocalDateTime departureTime;
+
+    @Column(nullable = false)
+    private LocalDateTime arrivalTime;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
 

@@ -32,4 +32,10 @@ public class LandmarkController {
         return ResponseEntity.ok(landmarkService.getSquareMapLandmarkList(lat, lon, distance));
     }
 
+    @GetMapping
+    @ApiOperation(value = "랜드마크 전체 조회")
+    public ResponseEntity<List<LandmarkDto.Res>> getLandmarkList() {
+        return ResponseEntity.ok(landmarkService.getLandmarkList());
+    }
+
 }

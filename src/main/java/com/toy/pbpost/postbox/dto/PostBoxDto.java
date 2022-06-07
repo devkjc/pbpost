@@ -8,9 +8,6 @@ import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKTReader;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -35,19 +32,8 @@ public class PostBoxDto {
         public PostBox toEntity(User user) {
             return PostBox.builder()
                     .user(user)
-                    .address(getAddress())
+                    .address(Address.createAddress(latitude, longitude, address))
                     .build();
-        }
-
-        public Address getAddress() {
-            try {
-                String pointWKT = String.format("POINT(%s %s)", longitude, latitude); // 경도 위도 순
-                Point point = (Point) new WKTReader().read(pointWKT);
-                return Address.builder().address(address).latitude(latitude).longitude(longitude).locationPoint(point).build();
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return null;
-            }
         }
     }
 

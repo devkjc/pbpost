@@ -1,5 +1,6 @@
 package com.toy.pbpost.config;
 
+import com.toy.pbpost.config.security.SecurityService;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ public class FeignClientInterceptor implements RequestInterceptor {
         if (authentication != null && authentication.getDetails() instanceof OAuth2AuthenticationDetails) {
             OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
             requestTemplate.header(AUTHORIZATION_HEADER, String.format("%s %s", TOKEN_TYPE, details.getTokenValue()));
+            requestTemplate.header("uid", SecurityService.getUid());
         }
     }
 }

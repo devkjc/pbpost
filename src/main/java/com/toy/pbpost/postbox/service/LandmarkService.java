@@ -28,4 +28,11 @@ public class LandmarkService {
         return landmarkList.stream().map(LandmarkDto.Res::of).collect(Collectors.toList());
     }
 
+    public List<LandmarkDto.Res> getLandmarkList() {
+        return landmarkRepository.findAll().stream().map(LandmarkDto.Res::of).collect(Collectors.toList());
+    }
+
+    public Landmark findById(long id) {
+        return landmarkRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 랜드마크 입니다."));
+    }
 }
