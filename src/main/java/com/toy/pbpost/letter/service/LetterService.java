@@ -22,8 +22,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +51,7 @@ public class LetterService {
         User toUser = null;
         Landmark landmark = null;
         PostBox postBox = null;
-        LocalDateTime departureTime = LocalDateTime.now(ZoneOffset.UTC);
+        LocalDateTime departureTime = LocalDateTime.now();
         LocalDateTime arrivalTime;
 
         Bird bird = birdService.getBird(req.getBirdId());
@@ -101,6 +103,18 @@ public class LetterService {
 
     private LetterFont getLetterFont(long id) {
         return letterFontRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 편지폰트입니다."));
+    }
+
+    public static void main(String[] args) {
+
+        ZonedDateTime now1 = ZonedDateTime.now(Clock.systemUTC());
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println("utc :: " + now1);
+        System.out.println("now :: " + now);
+
+//        ZonedDateTime zonedDateTime = now1.
+//                .atZone(ZoneId.of("Asia/Seoul"));
+//        System.out.println("zonedDateTime :: " + zonedDateTime);
     }
 
 }

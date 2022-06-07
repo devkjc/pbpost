@@ -15,7 +15,6 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 public class LetterDto {
 
@@ -77,8 +76,8 @@ public class LetterDto {
                     .toPostBox(letter.getToPostBox() != null ? PostBoxDto.Res.of(letter.getToPostBox()) : null)
                     .font(letter.getFont())
                     .background(letter.getBackground())
-                    .departureTime(LocalDateTime.from(letter.getDepartureTime().atZone(ZoneId.of("Asia/Seoul"))))
-                    .arrivalTime(LocalDateTime.from(letter.getArrivalTime().atZone(ZoneId.of("Asia/Seoul"))))
+                    .departureTime(letter.getDepartureTime())
+                    .arrivalTime(letter.getArrivalTime())
                     .content(letter.getContent())
                     .build();
         }
