@@ -1,7 +1,6 @@
 package com.toy.pbpost.postbox.service;
 
 import com.toy.pbpost.common.domain.Address;
-import com.toy.pbpost.common.exception.ProcessException;
 import com.toy.pbpost.postbox.domain.PostBox;
 import com.toy.pbpost.postbox.dto.PostBoxDto;
 import com.toy.pbpost.postbox.repository.PostBoxRepository;
@@ -43,7 +42,7 @@ public class PostBoxService {
     }
 
     public PostBoxDto.Res getPostBoxDto(String uid) {
-        return getPostBox(uid).map(PostBoxDto.Res::of).orElseThrow(() -> new ProcessException("내 우체통이 없습니다."));
+        return getPostBox(uid).map(PostBoxDto.Res::of).orElse(null);
     }
 
     public Optional<PostBox> getPostBox(String uid) {

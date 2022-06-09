@@ -3,7 +3,6 @@ package com.toy.pbpost.letter.service;
 import com.toy.pbpost.bird.domain.Bird;
 import com.toy.pbpost.bird.service.BirdService;
 import com.toy.pbpost.common.domain.Address;
-import com.toy.pbpost.common.exception.ProcessException;
 import com.toy.pbpost.common.util.LocationDistanceService;
 import com.toy.pbpost.letter.domain.Letter;
 import com.toy.pbpost.letter.domain.LetterBackground;
@@ -70,7 +69,7 @@ public class LetterService {
             arrivalTime = locationDistanceService.getArrivalTime(departureTime, req.getLatitude().doubleValue(), req.getLongitude().doubleValue(),
                     postBox.getAddress().getLatitude().doubleValue(), postBox.getAddress().getLongitude().doubleValue(), bird.getHourly());
         }else {
-            throw new ProcessException("수신지 정보가 없습니다.");
+            throw new IllegalArgumentException("수신지 정보가 없습니다.");
         }
 
         LetterFont letterFont = getLetterFont(req.getFontId());

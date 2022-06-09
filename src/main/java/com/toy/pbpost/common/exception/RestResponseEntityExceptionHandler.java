@@ -64,7 +64,7 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
     protected ResponseEntity<ErrorResponse> handleIllegalArgumentException(RuntimeException e) throws IOException {
-        log.error("handleIllegalArgumentException", e);
+        log.error("handleIllegalArgumentException :: " + e.getMessage());
         final String message = e.getMessage() == null ? "" : e.getMessage();
         final List<ErrorResponse.FieldError> errors = ErrorResponse.FieldError.of(null, null, message);
         final ErrorResponse response = ErrorResponse.of(ErrorMessage.ENTITY_NOT_FOUND, errors);

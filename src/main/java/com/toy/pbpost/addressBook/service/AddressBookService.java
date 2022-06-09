@@ -3,7 +3,6 @@ package com.toy.pbpost.addressBook.service;
 import com.toy.pbpost.addressBook.domain.AddressBook;
 import com.toy.pbpost.addressBook.dto.AddressBookDto;
 import com.toy.pbpost.addressBook.repository.AddressBookRepository;
-import com.toy.pbpost.common.exception.ProcessException;
 import com.toy.pbpost.postbox.domain.PostBox;
 import com.toy.pbpost.postbox.dto.PostBoxDto;
 import com.toy.pbpost.postbox.repository.PostBoxRepository;
@@ -34,7 +33,7 @@ public class AddressBookService {
     public AddressBookDto.Res saveAddressBookByCode(String uid, String code) {
 
         User user = userService.getUser(uid);
-        User targetUser = userRepository.findTopByCodeAndUidNot(code, uid).orElseThrow(() -> new ProcessException("유효한 코드가 아닙니다."));
+        User targetUser = userRepository.findTopByCodeAndUidNot(code, uid).orElseThrow(() -> new IllegalArgumentException("유효한 코드가 아닙니다."));
 
         return saveAddressBook(user, targetUser.getUid());
     }
@@ -62,13 +61,13 @@ public class AddressBookService {
     public AddressBookDto.Res saveAddressBookByNickname(String uid, String nickname) {
 
         User user = userService.getUser(uid);
-        User targetUser = userRepository.findTopByNickNameAndUidNot(nickname, uid).orElseThrow(() -> new ProcessException("유효한 닉네임이 아닙니다."));
+        User targetUser = userRepository.findTopByNickNameAndUidNot(nickname, uid).orElseThrow(() -> new IllegalArgumentException("유효한 닉네임이 아닙니다."));
 
         return saveAddressBook(user, targetUser.getUid());
     }
 
     private AddressBookDto.Res saveAddressBook(User me, String targetUid) {
-        PostBox postBox = postBoxService.getPostBox(targetUid).orElseThrow(() -> new ProcessException("우체통이 존재하지 않습니다."));
+        PostBox postBox = postBoxService.getPostBox(targetUid).orElseThrow(() -> new IllegalArgumentException("우체통이 존재하지 않습니다."));
         AddressBook entityAddressBook = addressBookRepository.findTopByUserUidAndPostBoxId(me.getUid(), postBox.getId()).orElseGet(() -> {
             AddressBook addressBook = AddressBook.builder()
                     .postBox(postBox)
