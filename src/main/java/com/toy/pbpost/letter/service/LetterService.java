@@ -23,8 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -41,16 +39,16 @@ public class LetterService {
 
     @Transactional
     public LetterDto.Res saveLetter(String fromUid, LetterDto.Req req) {
-        return LetterDto.Res.of(letterRepository.save(toEntity(fromUid, req)));
+        User fromUser = userService.getUser(fromUid);
+        return LetterDto.Res.of(letterRepository.save(toEntity(fromUser, req)), fromUser.getTimezone());
     }
 
-    private Letter toEntity(String fromUid, LetterDto.Req req) {
+    private Letter toEntity(User fromUser, LetterDto.Req req) {
 
-        User fromUser = userService.getUser(fromUid);
         User toUser = null;
         Landmark landmark = null;
         PostBox postBox = null;
-        LocalDateTime departureTime = LocalDateTime.now();
+        LocalDateTime departureTime = LocalDateTime.now(Clock.systemUTC());
         LocalDateTime arrivalTime;
 
         Bird bird = birdService.getBird(req.getBirdId());
@@ -93,7 +91,7 @@ public class LetterService {
     }
 
     private Boolean isBirdWorking(Long birdId) {
-        return letterRepository.countByBirdWorking(birdId, LocalDateTime.now(ZoneOffset.UTC)) > 0;
+        return letterRepository.countByBirdWorking(birdId, LocalDateTime.now(Clock.systemUTC())) > 0;
     }
 
     private LetterBackground getLetterBackground(long id) {
@@ -102,18 +100,6 @@ public class LetterService {
 
     private LetterFont getLetterFont(long id) {
         return letterFontRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 편지폰트입니다."));
-    }
-
-    public static void main(String[] args) {
-
-        ZonedDateTime now1 = ZonedDateTime.now(Clock.systemUTC());
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println("utc :: " + now1);
-        System.out.println("now :: " + now);
-
-//        ZonedDateTime zonedDateTime = now1.
-//                .atZone(ZoneId.of("Asia/Seoul"));
-//        System.out.println("zonedDateTime :: " + zonedDateTime);
     }
 
 }
