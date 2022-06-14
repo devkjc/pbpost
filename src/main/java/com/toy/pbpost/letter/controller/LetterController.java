@@ -1,5 +1,6 @@
 package com.toy.pbpost.letter.controller;
 
+import com.toy.pbpost.common.domain.TimeDto;
 import com.toy.pbpost.config.security.SecurityService;
 import com.toy.pbpost.letter.dto.LetterDto;
 import com.toy.pbpost.letter.service.LetterService;
@@ -25,6 +26,14 @@ public class LetterController {
     public ResponseEntity<LetterDto.Res> saveLetter(@RequestBody LetterDto.Req req) {
         String uid = SecurityService.getUid();
         return ResponseEntity.ok(letterService.saveLetter(uid, req));
+    }
+
+    @GetMapping("/time/{lat1}/{lon1}/{lat2}/{lon2}/{birdId}")
+    @ApiOperation(value = "특정장소까지 거리 및 예상 소요시간 조회")
+    public ResponseEntity<TimeDto> getRequiredTime(@PathVariable double lat1, @PathVariable double lon1,
+                                                   @PathVariable double lat2, @PathVariable double lon2,
+                                                   @PathVariable long birdId) {
+        return ResponseEntity.ok(letterService.getRequiredTime(lat1, lon1, lat2, lon2, birdId));
     }
 
 }

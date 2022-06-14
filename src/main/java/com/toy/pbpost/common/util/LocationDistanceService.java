@@ -44,7 +44,9 @@ public class LocationDistanceService {
         return (dist);
     }
 
-    private TimeDto requiredTime(double distance, double perHour) {
+    public TimeDto requiredTime(double lat1, double lon1, double lat2, double lon2, double perHour, LengthUnit unit) {
+
+        double distance = distance(lat1, lon1, lat2, lon2, unit);
 
         int day = 0;
         int hour =  (int) ( distance / perHour);
@@ -57,6 +59,8 @@ public class LocationDistanceService {
         }
 
         return TimeDto.builder()
+                .distance(distance)
+                .unit(unit)
                 .day(day)
                 .hour(hour)
                 .min(min)

@@ -3,6 +3,8 @@ package com.toy.pbpost.letter.service;
 import com.toy.pbpost.bird.domain.Bird;
 import com.toy.pbpost.bird.service.BirdService;
 import com.toy.pbpost.common.domain.Address;
+import com.toy.pbpost.common.domain.LengthUnit;
+import com.toy.pbpost.common.domain.TimeDto;
 import com.toy.pbpost.common.util.LocationDistanceService;
 import com.toy.pbpost.letter.domain.Letter;
 import com.toy.pbpost.letter.domain.LetterBackground;
@@ -43,6 +45,11 @@ public class LetterService {
         return LetterDto.Res.of(letterRepository.save(toEntity(fromUser, req)), fromUser.getTimezone());
     }
 
+    public TimeDto getRequiredTime(double lat1, double lon1, double lat2, double lon2, long birdId) {
+        Bird bird = birdService.getBird(birdId);
+        return locationDistanceService.requiredTime(lat1, lon1, lat2, lon2, bird.getHourly(), LengthUnit.KILOMETER);
+    }
+
     private Letter toEntity(User fromUser, LetterDto.Req req) {
 
         User toUser = null;
@@ -66,7 +73,7 @@ public class LetterService {
             toUser = postBox.getUser();
             arrivalTime = locationDistanceService.getArrivalTime(departureTime, req.getLatitude().doubleValue(), req.getLongitude().doubleValue(),
                     postBox.getAddress().getLatitude().doubleValue(), postBox.getAddress().getLongitude().doubleValue(), bird.getHourly());
-        }else {
+        } else {
             throw new IllegalArgumentException("수신지 정보가 없습니다.");
         }
 

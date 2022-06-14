@@ -13,5 +13,7 @@ public class TimeDto {
     int hour;
     int min;
     int sec;
+    double distance;
+    LengthUnit unit;
 
 }
