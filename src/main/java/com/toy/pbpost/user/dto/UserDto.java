@@ -19,11 +19,21 @@ public class UserDto {
         private final String code;
 
         public static Res of(User user) {
-            return Res.builder()
-                    .uid(user.getUid())
-                    .nickName(user.getNickName())
-                    .code(user.getCode())
-                    .build();
+
+            if (user == null) {
+                return Res.builder()
+                        .uid("")
+                        .code("")
+                        .nickName("탈퇴회원")
+                        .build();
+            }else{
+                return Res.builder()
+                        .uid(user.getUid())
+                        .nickName(user.getNickName())
+                        .code(user.getCode())
+                        .build();
+            }
+
         }
     }
 }

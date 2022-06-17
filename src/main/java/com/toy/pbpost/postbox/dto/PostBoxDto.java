@@ -48,6 +48,11 @@ public class PostBoxDto {
         private AddressDto.Res address;
 
         public static Res of(PostBox postBox) {
+
+            if (postBox == null) {
+                return null;
+            }
+
             return Res.builder()
                     .id(postBox.getId())
                     .user(UserDto.Res.of(postBox.getUser()))

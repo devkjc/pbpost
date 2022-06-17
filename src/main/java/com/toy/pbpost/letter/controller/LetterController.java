@@ -38,7 +38,7 @@ public class LetterController {
     }
 
     @DeleteMapping("/{letterId}")
-    @ApiOperation(value = "편지 삭제")
+    @ApiOperation(value = "편지 삭제 - 테스트용")
     public ResponseEntity<?> deleteLetter(@PathVariable long letterId) {
         String uid = SecurityService.getUid();
         letterService.deleteLetter(uid, letterId);

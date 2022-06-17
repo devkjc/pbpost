@@ -104,10 +104,16 @@ public class LetterService {
     }
 
     private LetterBackground getLetterBackground(long id) {
+        if (id == 0) {
+            id = 1;
+        }
         return letterBackgroundRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 편지배경입니다."));
     }
 
     private LetterFont getLetterFont(long id) {
+        if (id == 0) {
+            id = 1;
+        }
         return letterFontRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 편지폰트입니다."));
     }
 

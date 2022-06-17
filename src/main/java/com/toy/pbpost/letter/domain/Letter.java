@@ -29,7 +29,7 @@ public class Letter extends BaseTimeEntity {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "from_uid_fk", nullable = false)
+    @JoinColumn(name = "from_uid_fk")
     private User from;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,7 +37,7 @@ public class Letter extends BaseTimeEntity {
     private User to;
 
     @ManyToOne
-    @JoinColumn(name = "bird_id_fk", nullable = false)
+    @JoinColumn(name = "bird_id_fk")
     private Bird bird;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,11 +49,11 @@ public class Letter extends BaseTimeEntity {
     private PostBox toPostBox;
 
     @ManyToOne
-    @JoinColumn(name = "font_id_fk", nullable = false)
+    @JoinColumn(name = "font_id_fk")
     private LetterFont font;
 
     @ManyToOne
-    @JoinColumn(name = "background_id_fk", nullable = false)
+    @JoinColumn(name = "background_id_fk")
     private LetterBackground background;
 
     @Embedded
@@ -68,5 +68,7 @@ public class Letter extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    @Builder.Default
+    private Boolean enabled = true;
 
 }

@@ -21,6 +21,12 @@ public class BirdDto {
 
         public static Res of(Bird bird) {
 
+            if (bird == null) {
+                return Res.builder()
+                        .birdName("탈퇴회원")
+                        .build();
+            }
+
             return Res.builder()
                     .id(bird.getId())
                     .uid(bird.getUid())

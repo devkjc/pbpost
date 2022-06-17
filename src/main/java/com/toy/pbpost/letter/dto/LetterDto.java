@@ -66,6 +66,7 @@ public class LetterDto {
         private ZonedDateTime departureTime;
         private ZonedDateTime arrivalTime;
         private String content;
+        private Boolean enabled;
 
         public static Res of(Letter letter, String timezone) {
 
@@ -81,6 +82,7 @@ public class LetterDto {
                     .departureTime(getZoneDateTime(letter.getDepartureTime(),timezone))
                     .arrivalTime(getZoneDateTime(letter.getArrivalTime(), timezone))
                     .content(letter.getContent())
+                    .enabled(letter.getEnabled())
                     .build();
         }
 
