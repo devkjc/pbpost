@@ -11,6 +11,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/letter")
 @RequiredArgsConstructor
@@ -26,6 +28,21 @@ public class LetterController {
     public ResponseEntity<LetterDto.Res> saveLetter(@RequestBody LetterDto.Req req) {
         String uid = SecurityService.getUid();
         return ResponseEntity.ok(letterService.saveLetter(uid, req));
+    }
+
+    @GetMapping("/send/list")
+    @ApiOperation(value = "현재 전송 중인 편지 정보 확인")
+    public ResponseEntity<List<LetterDto.Res>> sendLetterList() {
+        String uid = SecurityService.getUid();
+        return ResponseEntity.ok(letterService.sendLetterList(uid));
+    }
+
+    @DeleteMapping("/{letterId}")
+    @ApiOperation(value = "편지 삭제")
+    public ResponseEntity<?> deleteLetter(@PathVariable long letterId) {
+        String uid = SecurityService.getUid();
+        letterService.deleteLetter(uid, letterId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/time/{lat1}/{lon1}/{lat2}/{lon2}/{birdId}")

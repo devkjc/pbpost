@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -109,4 +111,14 @@ public class LetterService {
         return letterFontRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 편지폰트입니다."));
     }
 
+    public List<LetterDto.Res> sendLetterList(String uid) {
+        User user = userService.getUser(uid);
+        return letterRepository.sendLetterList(uid, LocalDateTime.now(Clock.systemUTC())).stream()
+                .map(letter -> LetterDto.Res.of(letter, user.getTimezone())).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteLetter(String uid, long letterId) {
+        letterRepository.deleteByIdAndFromUid(letterId, uid);
+    }
 }
