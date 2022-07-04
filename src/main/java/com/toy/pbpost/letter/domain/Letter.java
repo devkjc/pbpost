@@ -59,6 +59,13 @@ public class Letter extends BaseTimeEntity {
     @Embedded
     private Address departureAddress;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "return_post_box_id_fk")
+    private PostBox returnPostBox;
+
+    @Column(nullable = false)
+    private LocalDateTime returnTime;
+
     @Column(nullable = false)
     private LocalDateTime departureTime;
 

@@ -1,5 +1,6 @@
 package com.toy.pbpost.postbox.controller;
 
+import com.toy.pbpost.config.security.SecurityService;
 import com.toy.pbpost.postbox.dto.LandmarkDto;
 import com.toy.pbpost.postbox.service.LandmarkService;
 import io.swagger.annotations.Api;
@@ -24,7 +25,7 @@ public class LandmarkController {
 
     @GetMapping("/map/{lat}/{lon}/{distance}")
     @ApiOperation(value = "내 주변 랜드마크 조회")
-    public ResponseEntity<List<LandmarkDto.Res>> getSquareMapLandmarkList(
+    public ResponseEntity<List<LandmarkDto.SimpleRes>> getSquareMapLandmarkList(
             @ApiParam(value = "위도") @PathVariable Double lat,
             @ApiParam(value = "경도") @PathVariable Double lon,
             @ApiParam(value = "거리(km)") @PathVariable Double distance
@@ -34,8 +35,15 @@ public class LandmarkController {
 
     @GetMapping
     @ApiOperation(value = "랜드마크 전체 조회")
-    public ResponseEntity<List<LandmarkDto.Res>> getLandmarkList() {
+    public ResponseEntity<List<LandmarkDto.SimpleRes>> getLandmarkList() {
         return ResponseEntity.ok(landmarkService.getLandmarkList());
+    }
+
+    @GetMapping("/{landmarkId}")
+    @ApiOperation(value = "랜드마크 자세히 보기")
+    public ResponseEntity<LandmarkDto.Res> getLandmark(@PathVariable long landmarkId) {
+        String uid = SecurityService.getUid();
+        return ResponseEntity.ok(landmarkService.getLandmark(landmarkId, uid));
     }
 
 }

@@ -2,12 +2,16 @@ package com.toy.pbpost.postbox.domain;
 
 import com.toy.pbpost.common.domain.Address;
 import com.toy.pbpost.common.domain.BaseTimeEntity;
+import com.toy.pbpost.letter.domain.Letter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -28,5 +32,10 @@ public class Landmark extends BaseTimeEntity {
 
     @Embedded
     private Address address;
+
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "toLandmark")
+    @Where(clause = "return_time >= CURRENT_TIMESTAMP")
+    private List<Letter> letterList = new ArrayList<>();
 
 }

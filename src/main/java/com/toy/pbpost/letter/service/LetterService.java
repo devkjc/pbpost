@@ -59,22 +59,47 @@ public class LetterService {
         PostBox postBox = null;
         LocalDateTime departureTime = LocalDateTime.now(Clock.systemUTC());
         LocalDateTime arrivalTime;
+        LocalDateTime returnTime;
 
         Bird bird = birdService.getBird(req.getBirdId());
+        PostBox returnPostBox = postBoxService.getPostBox(fromUser.getUid()).orElseThrow(IllegalArgumentException::new);
 
 //        if (isBirdWorking(bird.getId())) {
 //            throw new ProcessException("새가 현재 새장에 없습니다.");
 //        }
 
+        double departureLat = req.getLatitude().doubleValue();
+        double departureLon = req.getLongitude().doubleValue();
+        double returnLat = returnPostBox.getAddress().getLatitude().doubleValue();
+        double returnLon = returnPostBox.getAddress().getLongitude().doubleValue();
+
+        Double hourly = bird.getHourly();
+
         if (req.getToLandmarkId() != null && req.getToLandmarkId() != 0) {
+
             landmark = landmarkService.findById(req.getToLandmarkId());
-            arrivalTime = locationDistanceService.getArrivalTime(departureTime, req.getLatitude().doubleValue(), req.getLongitude().doubleValue(),
-                    landmark.getAddress().getLatitude().doubleValue(), landmark.getAddress().getLongitude().doubleValue(), bird.getHourly());
+
+            double arrivalLat = landmark.getAddress().getLatitude().doubleValue();
+            double arrivalLon = landmark.getAddress().getLongitude().doubleValue();
+
+            arrivalTime = locationDistanceService.getArrivalTime(departureTime, departureLat, departureLon,
+                    arrivalLat, arrivalLon, hourly);
+
+            returnTime = locationDistanceService.getArrivalTime(arrivalTime, arrivalLat, arrivalLon,
+                    returnLat, returnLon, hourly);
+
         } else if (req.getToPostBoxId() != null && req.getToPostBoxId() != 0) {
+
             postBox = postBoxService.findById(req.getToPostBoxId());
             toUser = postBox.getUser();
-            arrivalTime = locationDistanceService.getArrivalTime(departureTime, req.getLatitude().doubleValue(), req.getLongitude().doubleValue(),
-                    postBox.getAddress().getLatitude().doubleValue(), postBox.getAddress().getLongitude().doubleValue(), bird.getHourly());
+
+            double arrivalLat = postBox.getAddress().getLatitude().doubleValue();
+            double arrivalLon = postBox.getAddress().getLongitude().doubleValue();
+
+            arrivalTime = locationDistanceService.getArrivalTime(departureTime, departureLat, departureLon,
+                    arrivalLat, arrivalLon, hourly);
+            returnTime = locationDistanceService.getArrivalTime(arrivalTime, arrivalLat, arrivalLon,
+                    returnLat, returnLon, hourly);
         } else {
             throw new IllegalArgumentException("수신지 정보가 없습니다.");
         }
@@ -95,6 +120,8 @@ public class LetterService {
                 .departureTime(departureTime)
                 .arrivalTime(arrivalTime)
                 .departureAddress(address)
+                .returnPostBox(returnPostBox)
+                .returnTime(returnTime)
                 .content(req.getContent())
                 .build();
     }
