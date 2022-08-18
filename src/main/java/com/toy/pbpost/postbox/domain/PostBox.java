@@ -37,7 +37,7 @@ public class PostBox extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "toPostBox")
-    @Where(clause = "return_time >= CURRENT_TIMESTAMP")
+    @Where(clause = "arrival_time <= UTC_TIMESTAMP()")
     private List<Letter> letterList = new ArrayList<>();
 
     public void setAddress(Address address) {

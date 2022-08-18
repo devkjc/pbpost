@@ -63,13 +63,13 @@ public class Letter extends BaseTimeEntity {
     @JoinColumn(name = "return_post_box_id_fk")
     private PostBox returnPostBox;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "편지 도착 후 새가 돌아오는 시간")
     private LocalDateTime returnTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "편지 발송 시간")
     private LocalDateTime departureTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "편지 도착 시간")
     private LocalDateTime arrivalTime;
 
     @Column(columnDefinition = "TEXT", nullable = false)

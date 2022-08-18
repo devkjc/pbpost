@@ -35,7 +35,7 @@ public class Landmark extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "toLandmark")
-    @Where(clause = "return_time >= CURRENT_TIMESTAMP")
+    @Where(clause = "arrival_time <= UTC_TIMESTAMP()")
     private List<Letter> letterList = new ArrayList<>();
 
 }
