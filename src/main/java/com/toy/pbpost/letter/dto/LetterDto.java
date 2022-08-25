@@ -61,8 +61,8 @@ public class LetterDto {
         private UserDto.Res to;
         private BirdDto.Res bird;
         private LandmarkDto.SimpleRes toLandmark;
-        private PostBoxDto.Res toPostBox;
-        private PostBoxDto.Res returnPostBox;
+        private PostBoxDto.SimpleRes toPostBox;
+        private PostBoxDto.SimpleRes returnPostBox;
         private LetterFont font;
         private LetterBackground background;
         private AddressDto.Res departureAddress;
@@ -81,8 +81,8 @@ public class LetterDto {
                     .bird(BirdDto.Res.of(letter.getBird()))
                     .departureAddress(AddressDto.Res.of(letter.getDepartureAddress()))
                     .toLandmark(letter.getToLandmark() != null ? LandmarkDto.SimpleRes.of(letter.getToLandmark()) : null)
-                    .toPostBox(letter.getToPostBox() != null ? PostBoxDto.Res.of(letter.getToPostBox()) : null)
-                    .returnPostBox(letter.getReturnPostBox() != null ? PostBoxDto.Res.of(letter.getReturnPostBox()) : null)
+                    .toPostBox(letter.getToPostBox() != null ? PostBoxDto.SimpleRes.of(letter.getToPostBox()) : null)
+                    .returnPostBox(letter.getReturnPostBox() != null ? PostBoxDto.SimpleRes.of(letter.getReturnPostBox()) : null)
                     .font(letter.getFont())
                     .background(letter.getBackground())
                     .departureTime(getZoneDateTime(letter.getDepartureTime(),timezone))

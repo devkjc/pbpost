@@ -24,15 +24,15 @@ public class PostBoxService {
     private final UserService userService;
 
     @Transactional
-    public PostBoxDto.Res savePostBox(String uid, PostBoxDto.Req req) {
+    public PostBoxDto.SimpleRes savePostBox(String uid, PostBoxDto.Req req) {
         User user = userService.getUser(uid);
         Optional<PostBox> postBoxOptional = getPostBox(user.getUid());
         if (postBoxOptional.isPresent()) {
             PostBox postBox = postBoxOptional.get();
             postBox.setAddress(Address.createAddress(req.getLatitude(), req.getLongitude(), req.getAddress()));
-            return PostBoxDto.Res.of(postBoxRepository.save(postBox));
+            return PostBoxDto.SimpleRes.of(postBoxRepository.save(postBox));
         }else{
-            return PostBoxDto.Res.of(postBoxRepository.save(req.toEntity(user)));
+            return PostBoxDto.SimpleRes.of(postBoxRepository.save(req.toEntity(user)));
         }
     }
 
@@ -42,7 +42,8 @@ public class PostBoxService {
     }
 
     public PostBoxDto.Res getPostBoxDto(String uid) {
-        return getPostBox(uid).map(PostBoxDto.Res::of).orElse(null);
+        User user = userService.getUser(uid);
+        return getPostBox(uid).map(postBox -> PostBoxDto.Res.of(postBox, user.getTimezone())).orElse(null);
     }
 
     public Optional<PostBox> getPostBox(String uid) {
@@ -50,13 +51,13 @@ public class PostBoxService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostBoxDto.Res> getSquareMapPostBoxList(double baseLatitude, double baseLongitude, double distance) {
+    public List<PostBoxDto.SimpleRes> getSquareMapPostBoxList(double baseLatitude, double baseLongitude, double distance) {
 
         String lineString = getLineString(baseLatitude, baseLongitude, distance);
 
         List<PostBox> squareMapPostBoxList = postBoxRepository.getSquareMapPostBoxList(lineString);
 
-        return squareMapPostBoxList.stream().map(PostBoxDto.Res::of).collect(Collectors.toList());
+        return squareMapPostBoxList.stream().map(PostBoxDto.SimpleRes::of).collect(Collectors.toList());
     }
 
     public PostBox findById(long id) {

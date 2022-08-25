@@ -48,13 +48,13 @@ public class AddressBookService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostBoxDto.Res> getSquareMapPostBoxList(double baseLatitude, double baseLongitude, double distance, String uid) {
+    public List<PostBoxDto.SimpleRes> getSquareMapPostBoxList(double baseLatitude, double baseLongitude, double distance, String uid) {
 
         String lineString = getLineString(baseLatitude, baseLongitude, distance);
 
         List<PostBox> squareMapPostBoxList = postBoxRepository.getSquareMapMyAddressBook(lineString, uid);
 
-        return squareMapPostBoxList.stream().map(PostBoxDto.Res::of).collect(Collectors.toList());
+        return squareMapPostBoxList.stream().map(PostBoxDto.SimpleRes::of).collect(Collectors.toList());
     }
 
     @Transactional

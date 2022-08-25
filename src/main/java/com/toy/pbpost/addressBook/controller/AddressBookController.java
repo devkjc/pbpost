@@ -55,7 +55,7 @@ public class AddressBookController {
 
     @GetMapping("/map/{lat}/{lon}/{distance}")
     @ApiOperation(value = "내 주소록에 있는 주변 우체통 조회")
-    public ResponseEntity<List<PostBoxDto.Res>> getSquareMapPostBoxList(
+    public ResponseEntity<List<PostBoxDto.SimpleRes>> getSquareMapPostBoxList(
             @ApiParam(value = "위도") @PathVariable Double lat,
             @ApiParam(value = "경도") @PathVariable Double lon,
             @ApiParam(value = "거리(km)") @PathVariable Double distance

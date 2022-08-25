@@ -27,13 +27,13 @@ public class AddressBookDto {
     public static class Res {
 
         private long id;
-        private PostBoxDto.Res postBox;
+        private PostBoxDto.SimpleRes postBox;
 
         public static Res of(AddressBook addressBook) {
 
             return Res.builder()
                     .id(addressBook.getId())
-                    .postBox(PostBoxDto.Res.of(addressBook.getPostBox()))
+                    .postBox(PostBoxDto.SimpleRes.of(addressBook.getPostBox()))
                     .build();
         }
     }

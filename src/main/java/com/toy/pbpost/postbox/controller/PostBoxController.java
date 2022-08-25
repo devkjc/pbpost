@@ -27,7 +27,7 @@ public class PostBoxController {
 
     @PostMapping
     @ApiOperation(value = "우체통 설치")
-    public ResponseEntity<PostBoxDto.Res> savePostBox(@RequestBody PostBoxDto.Req req) {
+    public ResponseEntity<PostBoxDto.SimpleRes> savePostBox(@RequestBody PostBoxDto.Req req) {
         String uid = SecurityService.getUid();
         return ResponseEntity.ok(postBoxService.savePostBox(uid, req));
     }
@@ -49,7 +49,7 @@ public class PostBoxController {
 
     @GetMapping("/map/{lat}/{lon}/{distance}")
     @ApiOperation(value = "내 주변 우체통 조회")
-    public ResponseEntity<List<PostBoxDto.Res>> getSquareMapPostBoxList(
+    public ResponseEntity<List<PostBoxDto.SimpleRes>> getSquareMapPostBoxList(
             @ApiParam(value = "위도") @PathVariable Double lat,
             @ApiParam(value = "경도") @PathVariable Double lon,
             @ApiParam(value = "거리(km)") @PathVariable Double distance) {
