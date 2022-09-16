@@ -78,4 +78,11 @@ public class Letter extends BaseTimeEntity {
     @Builder.Default
     private Boolean enabled = true;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "letter_box_id_fk")
+    private LetterBox letterBox;
+
+    public void setLetterBox(LetterBox letterBox) {
+        this.letterBox = letterBox;
+    }
 }

@@ -1,6 +1,9 @@
 package com.toy.pbpost.letter.dto;
 
 import com.toy.pbpost.bird.dto.BirdDto;
+import com.toy.pbpost.common.domain.Address;
+import com.toy.pbpost.common.domain.LengthUnit;
+import com.toy.pbpost.common.util.LocationDistanceService;
 import com.toy.pbpost.letter.domain.Letter;
 import com.toy.pbpost.letter.domain.LetterBackground;
 import com.toy.pbpost.letter.domain.LetterFont;
@@ -108,8 +111,15 @@ public class LetterDto {
         private AddressDto.Res departureAddress;
         private ZonedDateTime arrivalTime;
         private Boolean enabled;
+        private Double distance;
 
-        public static SimpleRes of(Letter letter, String timezone) {
+        public static SimpleRes of(Letter letter, String timezone, Address address) {
+
+            Address fromPostBox = letter.getReturnPostBox().getAddress();
+
+            double distance = LocationDistanceService.distance(
+                    fromPostBox.getLatitude().doubleValue(), fromPostBox.getLongitude().doubleValue(),
+                    address.getLatitude().doubleValue(), address.getLongitude().doubleValue(), LengthUnit.KILOMETER);
 
             return LetterDto.SimpleRes.builder()
                     .id(letter.getId())
@@ -118,6 +128,7 @@ public class LetterDto {
                     .departureAddress(AddressDto.Res.of(letter.getDepartureAddress()))
                     .arrivalTime(getZoneDateTime(letter.getArrivalTime(), timezone))
                     .enabled(letter.getEnabled())
+                    .distance(distance)
                     .build();
         }
     }

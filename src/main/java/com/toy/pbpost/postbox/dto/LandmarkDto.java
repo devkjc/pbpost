@@ -53,7 +53,7 @@ public class LandmarkDto {
                     .name(landmark.getName())
                     .engName(landmark.getEngName())
                     .address(AddressDto.Res.of(landmark.getAddress()))
-                    .letterList(landmark.getLetterList().stream().map(letter -> LetterDto.SimpleRes.of(letter, timezone)).collect(Collectors.toList()))
+                    .letterList(landmark.getLetterList().stream().map(letter -> LetterDto.SimpleRes.of(letter, timezone, landmark.getAddress())).collect(Collectors.toList()))
                     .build();
         }
     }

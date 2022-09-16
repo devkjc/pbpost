@@ -28,8 +28,7 @@ public class LandmarkController {
     public ResponseEntity<List<LandmarkDto.SimpleRes>> getSquareMapLandmarkList(
             @ApiParam(value = "위도") @PathVariable Double lat,
             @ApiParam(value = "경도") @PathVariable Double lon,
-            @ApiParam(value = "거리(km)") @PathVariable Double distance
-    ) {
+            @ApiParam(value = "거리(km)") @PathVariable Double distance) {
         return ResponseEntity.ok(landmarkService.getSquareMapLandmarkList(lat, lon, distance));
     }
 

@@ -61,7 +61,7 @@ public class PostBoxDto {
                     .id(postBox.getId())
                     .user(UserDto.Res.of(postBox.getUser()))
                     .address(AddressDto.Res.of(postBox.getAddress()))
-                    .letterList(postBox.getLetterList().stream().map(letter -> LetterDto.SimpleRes.of(letter, timezone)).collect(Collectors.toList()))
+                    .letterList(postBox.getLetterList().stream().map(letter -> LetterDto.SimpleRes.of(letter, timezone, postBox.getAddress())).collect(Collectors.toList()))
                     .build();
         }
     }

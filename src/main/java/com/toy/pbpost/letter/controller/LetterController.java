@@ -2,6 +2,7 @@ package com.toy.pbpost.letter.controller;
 
 import com.toy.pbpost.common.domain.TimeDto;
 import com.toy.pbpost.config.security.SecurityService;
+import com.toy.pbpost.letter.dto.LetterBoxDto;
 import com.toy.pbpost.letter.dto.LetterDto;
 import com.toy.pbpost.letter.service.LetterService;
 import io.swagger.annotations.Api;
@@ -51,6 +52,13 @@ public class LetterController {
                                                    @PathVariable double lat2, @PathVariable double lon2,
                                                    @PathVariable long birdId) {
         return ResponseEntity.ok(letterService.getRequiredTime(lat1, lon1, lat2, lon2, birdId));
+    }
+
+    @PostMapping("/receipt/{letterId}")
+    @ApiOperation(value = "편지 수령")
+    public ResponseEntity<LetterBoxDto.Res> receiptLetter(@PathVariable Long letterId) {
+        String uid = SecurityService.getUid();
+        return ResponseEntity.ok(letterService.receiptLetter(uid, letterId));
     }
 
 }
