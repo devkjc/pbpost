@@ -1,7 +1,9 @@
 package com.toy.pbpost.postbox.controller;
 
 import com.toy.pbpost.config.security.SecurityService;
+import com.toy.pbpost.letter.dto.LandmarkLimitDto;
 import com.toy.pbpost.postbox.dto.LandmarkDto;
+import com.toy.pbpost.postbox.service.LandmarkLimitService;
 import com.toy.pbpost.postbox.service.LandmarkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +24,7 @@ import java.util.List;
 public class LandmarkController {
 
     private final LandmarkService landmarkService;
+    private final LandmarkLimitService landmarkLimitService;
 
     @GetMapping("/map/{lat}/{lon}/{distance}")
     @ApiOperation(value = "내 주변 랜드마크 조회")
@@ -43,6 +46,13 @@ public class LandmarkController {
     public ResponseEntity<LandmarkDto.Res> getLandmark(@PathVariable long landmarkId) {
         String uid = SecurityService.getUid();
         return ResponseEntity.ok(landmarkService.getLandmark(landmarkId, uid));
+    }
+
+    @GetMapping("/letter/limit")
+    @ApiOperation(value = "오늘 랜드마크 편지 수령 횟수 조회")
+    public ResponseEntity<LandmarkLimitDto.Res> getLandmarkLimit() {
+        String uid = SecurityService.getUid();
+        return ResponseEntity.ok(landmarkLimitService.getLandmarkLimit(uid));
     }
 
 }

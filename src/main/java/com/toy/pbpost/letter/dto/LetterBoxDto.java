@@ -28,7 +28,7 @@ public class LetterBoxDto {
                     Res.builder()
                             .id(letterBox.getId())
                             .user(UserDto.Res.of(letterBox.getUser()))
-                            .letterList(letterBox.getLetterList().stream().map(letter -> LetterDto.Res.of(letter, letterBox.getUser().getTimezone())).collect(Collectors.toList()))
+                            .letterList(letterBox.getLetterList().stream().map(LetterDto.Res::of).collect(Collectors.toList()))
                             .build() : null;
         }
     }

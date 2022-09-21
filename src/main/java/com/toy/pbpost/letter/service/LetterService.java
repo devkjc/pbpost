@@ -8,12 +8,9 @@ import com.toy.pbpost.common.domain.TimeDto;
 import com.toy.pbpost.common.util.LocationDistanceService;
 import com.toy.pbpost.letter.domain.Letter;
 import com.toy.pbpost.letter.domain.LetterBackground;
-import com.toy.pbpost.letter.domain.LetterBox;
 import com.toy.pbpost.letter.domain.LetterFont;
-import com.toy.pbpost.letter.dto.LetterBoxDto;
 import com.toy.pbpost.letter.dto.LetterDto;
 import com.toy.pbpost.letter.repository.LetterBackgroundRepository;
-import com.toy.pbpost.letter.repository.LetterBoxRepository;
 import com.toy.pbpost.letter.repository.LetterFontRepository;
 import com.toy.pbpost.letter.repository.LetterRepository;
 import com.toy.pbpost.postbox.domain.Landmark;
@@ -38,7 +35,6 @@ public class LetterService {
     private final LetterRepository letterRepository;
     private final LetterFontRepository letterFontRepository;
     private final LetterBackgroundRepository letterBackgroundRepository;
-    private final LetterBoxRepository letterBoxRepository;
     private final LandmarkService landmarkService;
     private final PostBoxService postBoxService;
     private final LocationDistanceService locationDistanceService;
@@ -48,7 +44,7 @@ public class LetterService {
     @Transactional
     public LetterDto.Res saveLetter(String fromUid, LetterDto.Req req) {
         User fromUser = userService.getUser(fromUid);
-        return LetterDto.Res.of(letterRepository.save(toEntity(fromUser, req)), fromUser.getTimezone());
+        return LetterDto.Res.of(letterRepository.save(toEntity(fromUser, req)));
     }
 
     public TimeDto getRequiredTime(double lat1, double lon1, double lat2, double lon2, long birdId) {
@@ -149,41 +145,13 @@ public class LetterService {
     }
 
     public List<LetterDto.Res> sendLetterList(String uid) {
-        User user = userService.getUser(uid);
         return letterRepository.sendLetterList(uid, LocalDateTime.now(Clock.systemUTC())).stream()
-                .map(letter -> LetterDto.Res.of(letter, user.getTimezone())).collect(Collectors.toList());
+                .map(LetterDto.Res::of).collect(Collectors.toList());
     }
 
     @Transactional
     public void deleteLetter(String uid, long letterId) {
         letterRepository.deleteByIdAndFromUid(letterId, uid);
-    }
-
-
-    /*
-    TODO
-         랜드마크 거리 체크
-         보관함 분류
-         편지 보여줄 정보
-
-
-     */
-    @Transactional
-    public LetterBoxDto.Res receiptLetter(String uid, Long letterId) {
-
-        User user = userService.getUser(uid);
-
-        LetterBox letterBox = getLetterBox(uid, user);
-        Letter letter = getLetter(letterId);
-        letterBox.receiptLetter(letter);
-
-        letter.setLetterBox(letterBox);
-
-        return LetterBoxDto.Res.of(letterBox);
-    }
-
-    public LetterBox getLetterBox(String uid, User user) {
-        return letterBoxRepository.findByUserUid(uid).orElseGet(() -> letterBoxRepository.save(LetterBox.builder().user(user).build()));
     }
 
     public Letter getLetter(Long letterId) {

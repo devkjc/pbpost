@@ -2,7 +2,6 @@ package com.toy.pbpost.postbox.controller;
 
 import com.toy.pbpost.config.security.SecurityService;
 import com.toy.pbpost.postbox.dto.PostBoxDto;
-import com.toy.pbpost.postbox.repository.LandmarkRepository;
 import com.toy.pbpost.postbox.service.PostBoxService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +22,6 @@ import java.util.List;
 public class PostBoxController {
 
     private final PostBoxService postBoxService;
-    private final LandmarkRepository landmarkRepository;
 
     @PostMapping
     @ApiOperation(value = "우체통 설치")

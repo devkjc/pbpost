@@ -4,6 +4,7 @@ import com.toy.pbpost.common.domain.TimeDto;
 import com.toy.pbpost.config.security.SecurityService;
 import com.toy.pbpost.letter.dto.LetterBoxDto;
 import com.toy.pbpost.letter.dto.LetterDto;
+import com.toy.pbpost.letter.service.LetterBoxService;
 import com.toy.pbpost.letter.service.LetterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +24,7 @@ import java.util.List;
 public class LetterController {
 
     private final LetterService letterService;
+    private final LetterBoxService letterBoxService;
 
     @PostMapping
     @ApiOperation(value = "편지 쓰기")
@@ -58,7 +60,7 @@ public class LetterController {
     @ApiOperation(value = "편지 수령")
     public ResponseEntity<LetterBoxDto.Res> receiptLetter(@PathVariable Long letterId) {
         String uid = SecurityService.getUid();
-        return ResponseEntity.ok(letterService.receiptLetter(uid, letterId));
+        return ResponseEntity.ok(letterBoxService.receiptLetter(uid, letterId));
     }
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user")
@@ -30,4 +31,16 @@ public class User extends BaseTimeEntity {
 
     private String timezone;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(uid, user.uid) && Objects.equals(code, user.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uid, code);
+    }
 }

@@ -85,4 +85,8 @@ public class Letter extends BaseTimeEntity {
     public void setLetterBox(LetterBox letterBox) {
         this.letterBox = letterBox;
     }
+
+    public boolean isLandmarkLetter() {
+        return toLandmark != null;
+    }
 }

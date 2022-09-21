@@ -18,9 +18,10 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
+
+import static com.toy.pbpost.common.util.DateTimeUtil.getZoneDateTime;
+import static com.toy.pbpost.common.util.DateTimeUtil.saveUTCDate;
 
 public class LetterDto {
 
@@ -75,7 +76,7 @@ public class LetterDto {
         private String content;
         private Boolean enabled;
 
-        public static Res of(Letter letter, String timezone) {
+        public static Res of(Letter letter) {
 
             return Res.builder()
                     .id(letter.getId())
@@ -88,9 +89,9 @@ public class LetterDto {
                     .returnPostBox(letter.getReturnPostBox() != null ? PostBoxDto.SimpleRes.of(letter.getReturnPostBox()) : null)
                     .font(letter.getFont())
                     .background(letter.getBackground())
-                    .departureTime(getZoneDateTime(letter.getDepartureTime(),timezone))
-                    .arrivalTime(getZoneDateTime(letter.getArrivalTime(), timezone))
-                    .returnTime(getZoneDateTime(letter.getReturnTime(), timezone))
+                    .departureTime(saveUTCDate(letter.getDepartureTime()))
+                    .arrivalTime(saveUTCDate(letter.getArrivalTime()))
+                    .returnTime(saveUTCDate(letter.getReturnTime()))
                     .content(letter.getContent())
                     .enabled(letter.getEnabled())
                     .build();
@@ -132,9 +133,4 @@ public class LetterDto {
                     .build();
         }
     }
-
-    public static ZonedDateTime getZoneDateTime(LocalDateTime localDateTime, String timezone) {
-        return localDateTime.atZone(ZoneId.of("Z")).withZoneSameInstant(ZoneId.of(timezone));
-    }
-
 }
